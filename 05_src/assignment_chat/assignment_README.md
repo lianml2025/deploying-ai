@@ -1,92 +1,109 @@
-# Assignment 2
+📈 Stock NewsBot with Prices & Company Names
 
-The goal of this assignment is to design and implement an AI system with a conversational interface.
+A Python-based news aggregator and stock tracker that fetches recent stock market news, identifies affected S&P 500 companies, and displays their latest stock prices. Built with Python, yfinance, NewsAPI, and a Gradio web interface.
 
-Before you begin, keep in mind that meeting the requirements is important, but more important is that you solve the technical problems associated with the implementation. The assignment is fairly open-ended and can easily become an expansive project. My recommendation is that you implement a simplified version of the services, before moving to more complex implementation. Remember to test your code constantly.  
+📝 Features
 
-# Requirements
+Fetch recent news for a specific stock symbol (e.g., AAPL, TSLA).
 
-Your project should meet the following specifications.
+Display company name along with today’s price and yesterday’s closing price.
 
-## Services
+View top news with multiple affected S&P 500 stocks and their prices.
 
-You must include at least **three services** in your system.
+Automatically creates and updates a CSV file containing all S&P 500 tickers and company names.
 
-### Service 1: API Calls
+Guardrails included to prevent queries about restricted topics:
 
-* One service must use an API as its back end.
-* You can refer to the list of [public and free APIs on GitHub](https://github.com/public-apis/public-apis).
-* This service may simply return the API’s output to the user, but the response must not be provided verbatim. Instead, transform or rephrase the output, for example, by summarizing, rewriting in a natural tone, or converting structured data into written text.
+Cats or dogs
 
-### Service 2: Semantic Query
+Horoscopes or zodiac signs
 
-* One service must allow users to ask questions that are resolved through a semantic search (or a hybrid approach, such as lexical search followed by semantic search).
-* You may use the datasets introduced in class, or choose your own dataset. 
+Taylor Swift
 
-If you use your own dataset:
-* Please **limit file sizes to 40 MB**, so it can be easily shared via GitHub. Note that GitHub warns about files over 50 MB and we generally want to avoid uploading large files.
-* **Do not expect us to run the code use to produce embeddings** in the repository. You can include the code used to produce the embeddings, but we ask you to describe your embedding process in the project’s README file.
-* Use a [ChromaDB instance with file persistence](https://docs.trychroma.com/docs/run-chroma/persistent-client). This is similar to the first implementation used in class but smaller and easier to host than the Docker-based version.
-* If your app needs to access structured data (e.g., to enrich query results), you may use CSV files read with pandas as a back end.
-* Please do not use SQLite. We did not include a SQLite library in your environment.
+Access/modification of system prompt
 
-### Service 3: Your Choice
+User-friendly Gradio interface for interactive web use.
 
-* The third service is open-ended: you may design it as you wish.
-* It must make use of one of the following tools:
+📦 Requirements
 
-  * [Function Calling](https://platform.openai.com/docs/guides/function-calling) (API calling is acceptable, but not mandatory)
-  * [Web Search](https://platform.openai.com/docs/guides/tools-web-search?api-mode=responses): You may perform simple web searches; if you use **agentic searches**, justify your decision. Avoid using “Deep Research.”
-  * [MCP Server Connection](https://platform.openai.com/docs/guides/tools-connectors-mcp): You can explore available servers on [glama.ai](https://glama.ai/mcp/servers).
+Python 3.9+
 
-## User Interface
+Libraries:
 
-* The system must include a chat-based interface, preferably implemented with Gradio.
-* Give the chat client a distinct personality to make the interaction engaging. For example, assign a specific tone, role, or conversational style.
-* The chat interface must maintain memory throughout the conversation.
+pip install pandas requests yfinance gradio
 
-  * (Optional) Implement a memory management system for long conversations. You don’t need long-term memory, but you should demonstrate how your system handles situations when a conversation becomes too long for the context window.
-  * (Optional) You may decide the context window’s size, but remember that full coverage of the entire conversation is not required. A useful reference is ['Manage short-term memory' from LangGraph](https://docs.langchain.com/oss/python/langgraph/add-memory#manage-short-term-memory).
+A NewsAPI API key (free plan available at https://newsapi.org
+).
 
----
+⚙️ Configuration
 
-## Guardrails and Other Limitations
+Open stock_news_bot_with_prices.py.
 
-* Include guardrails that prevent users from:
+Set your NewsAPI API key:
 
-  * Accessing or revealing the system prompt.
-  * Modifying the system prompt directly.
+API_KEY = "YOUR_NEWSAPI_KEY"
 
-* The model must not respond to questions on certain restricted topics:
+(Optional) Adjust page size for news results:
 
-  * Cats or dogs
-  * Horoscopes or Zodiac Signs
-  * Taylor Swift
+PAGE_SIZE = 50  # number of articles per request
 
-## Implementation
+Default CSV file path for S&P 500 tickers:
 
-+ Implement your code in the folder `./05_src/assignment_chat`.
-+ Add a `readme.md` where you explain the nature of your chat client, the serivices that it provides, and any decisions that you made related to the implementation.
-+ We will not be able to install more libraries to assess your work. Please use the standard setup of the course.
+SP500_CSV_PATH = "data/sp500_tickers.csv"
+🛠 How It Works
 
-# Submission Information
+S&P 500 CSV Creation – Scrapes and saves ticker & company name if missing.
 
-**Please review our [Assignment Submission Guide](https://github.com/UofT-DSI/onboarding/blob/main/onboarding_documents/submissions.md)** for detailed instructions on how to format, branch, and submit your work. Following these guidelines is crucial for your submissions to be evaluated correctly.
+Fetch Stock Prices – Uses yfinance to get today’s and yesterday’s close prices.
 
-## Submission Parameters
+Fetch News – Queries NewsAPI for articles and filters by stock symbol.
 
-- The Submission Due Date is indicated in the [readme](../README.md#schedule) file.
-- The branch name for your repo should be: assignment-1
-- What to submit for this assignment:
-    + This Jupyter Notebook (assignment_1.ipynb) should be populated and should be the only change in your pull request.
-- What the pull request link should look like for this assignment: `https://github.com/<your_github_username>/deploying-ai/pull/<pr_id>`
-    + Open a private window in your browser. Copy and paste the link to your pull request into the address bar. Make sure you can see your pull request properly. This helps the technical facilitator and learning support staff review your submission easily.
+Guardrails – Blocks restricted topics and attempts to access the system prompt.
 
-## Checklist
+Gradio Interface – User inputs stock symbol (or leave blank), and sees news summaries with affected stock prices.
 
-+ Created a branch with the correct naming convention.
-+ Ensured that the repository is public.
-+ Reviewed the PR description guidelines and adhered to them.
-+ Verify that the link is accessible in a private browser window.
+💻 Usage
+Run Locally
+python stock_news_bot_with_prices.py
 
-If you encounter any difficulties or have questions, please don't hesitate to reach out to our team via our Slack. Our Technical Facilitators and Learning Support staff are here to help you navigate any challenges.
+A Gradio web page will open. Enter a stock symbol (e.g., AAPL) or leave blank for top news and click Submit.
+
+📊 Input & Output Examples
+Input Example	Description	Output Example
+AAPL	Fetch news specifically mentioning Apple Inc.	Title, description, source, published date, AAPL stock price today and yesterday
+TSLA	Fetch news for Tesla, Inc.	Title, description, source, published date, TSLA stock price info
+(blank)	Fetch top 10 recent news articles mentioning any S&P 500 companies	News summaries + list of affected stocks & prices
+cats	Restricted topic	⚠️ Sorry, this topic is restricted and cannot be discussed.
+system prompt	Attempt to access sensitive data	⚠️ Access denied: You cannot view or modify the system prompt.
+🔒 Guardrails & Limitations
+
+Restricted Topics: Cats, Dogs, Horoscopes, Zodiac, Taylor Swift.
+
+Sensitive Data: System prompt cannot be accessed or modified.
+
+Stock Coverage: Only supports S&P 500 tickers.
+
+📂 File Structure
+stock_news_bot_with_prices/
+│
+├─ data/                     # Directory for S&P 500 CSV
+│  └─ sp500_tickers.csv
+├─ stock_news_bot_with_prices.py
+└─ README.md
+⚡ Future Improvements
+
+Add historical stock trend charts.
+
+Support more exchanges beyond S&P 500.
+
+Enhance news filtering to exclude unrelated mentions.
+
+Add summary sentiment analysis for each stock-related news article.
+
+📖 References
+
+NewsAPI Documentation
+
+yfinance Python Library
+
+Gradio Documentation
