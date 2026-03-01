@@ -1,4 +1,4 @@
-📈 Stock NewsBot with Prices & Company Names
+📈 Stock NewsBot with Prices & Company Tickers
 
 A Python-based news aggregator and stock tracker that fetches recent stock market news, identifies affected S&P 500 companies, and displays their latest stock prices. Built with Python, yfinance, NewsAPI, and a Gradio web interface.
 
